@@ -503,8 +503,11 @@ static int _snd_timer_stop(struct snd_timer_instance *timeri, int event)
 		return -ENXIO;
 
 	if (timeri->flags & SNDRV_TIMER_IFLG_SLAVE) {
-		spin_lock_irqsave(&slave_active_lock, flags);
-		if (!(timeri->flags & SNDRV_TIMER_IFLG_RUNNING)) {
+		if (!keep_flag) {
+			spin_lock_irqsave(&slave_active_lock, flags);
+			timeri->flags &= ~SNDRV_TIMER_IFLG_RUNNING;
+			list_del_init(&timeri->ack_list);
+			list_del_init(&timeri->active_list);
 			spin_unlock_irqrestore(&slave_active_lock, flags);
 			return -EBUSY;
 		}
@@ -1208,6 +1211,7 @@ static void snd_timer_user_ccallback(struct snd_timer_instance *timeri,
 		tu->tstamp = *tstamp;
 	if ((tu->filter & (1 << event)) == 0 || !tu->tread)
 		return;
+	memset(&r1, 0, sizeof(r1));
 	r1.event = event;
 	r1.tstamp = *tstamp;
 	r1.val = resolution;
@@ -1242,6 +1246,7 @@ static void snd_timer_user_tinterrupt(struct snd_timer_instance *timeri,
 	}
 	if ((tu->filter & (1 << SNDRV_TIMER_EVENT_RESOLUTION)) &&
 	    tu->last_resolution != resolution) {
+		memset(&r1, 0, sizeof(r1));
 		r1.event = SNDRV_TIMER_EVENT_RESOLUTION;
 		r1.tstamp = tstamp;
 		r1.val = resolution;
@@ -1707,6 +1712,7 @@ static int snd_timer_user_params(struct file *file,
 	if (tu->timeri->flags & SNDRV_TIMER_IFLG_EARLY_EVENT) {
 		if (tu->tread) {
 			struct snd_timer_tread tread;
+			memset(&tread, 0, sizeof(tread));
 			tread.event = SNDRV_TIMER_EVENT_EARLY;
 			tread.tstamp.tv_sec = 0;
 			tread.tstamp.tv_nsec = 0;
