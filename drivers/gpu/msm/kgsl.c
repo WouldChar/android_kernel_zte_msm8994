@@ -363,11 +363,7 @@ static void kgsl_mem_entry_commit_mem_list(struct kgsl_process_private *process,
 }
 
 static void kgsl_mem_entry_commit_process(struct kgsl_process_private *process,
-<<<<<<< HEAD
-						struct kgsl_mem_entry *entry)
-=======
 				struct kgsl_mem_entry *entry)
->>>>>>> LA.BF64.1.2.3-02210-8x94.0
 {
 	if (!entry)
 		return;

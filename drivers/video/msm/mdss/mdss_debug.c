@@ -117,21 +117,13 @@ static ssize_t panel_debug_base_offset_read(struct file *file,
 
 	mutex_lock(&mdss_debug_lock);
 	len = snprintf(buf, sizeof(buf), "0x%02zx %zx\n", dbg->off, dbg->cnt);
-<<<<<<< HEAD
-	if (len < 0 || len >= sizeof(buf))
-=======
 	if (len < 0 || len >= sizeof(buf)) {
 		mutex_unlock(&mdss_debug_lock);
->>>>>>> LA.BF64.1.2.3-02210-8x94.0
 		return 0;
 	}
 
-<<<<<<< HEAD
-	if ((count < sizeof(buf)) || copy_to_user(buff, buf, len))
-=======
 	if ((count < sizeof(buf)) || copy_to_user(buff, buf, len)) {
 		mutex_unlock(&mdss_debug_lock);
->>>>>>> LA.BF64.1.2.3-02210-8x94.0
 		return -EFAULT;
 	}
 
@@ -270,22 +262,14 @@ static ssize_t panel_debug_base_reg_read(struct file *file,
 	if (mdata->debug_inf.debug_enable_clock)
 		mdata->debug_inf.debug_enable_clock(0);
 
-<<<<<<< HEAD
-	if (len < 0 || len >= sizeof(to_user_buf))
-=======
 	if (len < 0 || len >= sizeof(to_user_buf)) {
 		mutex_unlock(&mdss_debug_lock);
->>>>>>> LA.BF64.1.2.3-02210-8x94.0
 		return 0;
 	}
 
 	if ((count < sizeof(to_user_buf))
-<<<<<<< HEAD
-			|| copy_to_user(user_buf, to_user_buf, len))
-=======
 			|| copy_to_user(user_buf, to_user_buf, len)) {
 		mutex_unlock(&mdss_debug_lock);
->>>>>>> LA.BF64.1.2.3-02210-8x94.0
 		return -EFAULT;
 	}
 
@@ -446,21 +430,13 @@ static ssize_t mdss_debug_base_offset_read(struct file *file,
 
 	mutex_lock(&mdss_debug_lock);
 	len = snprintf(buf, sizeof(buf), "0x%08zx %zx\n", dbg->off, dbg->cnt);
-<<<<<<< HEAD
-	if (len < 0 || len >= sizeof(buf))
-=======
 	if (len < 0 || len >= sizeof(buf)) {
 		mutex_unlock(&mdss_debug_lock);
->>>>>>> LA.BF64.1.2.3-02210-8x94.0
 		return 0;
 	}
 
-<<<<<<< HEAD
-	if ((count < sizeof(buf)) || copy_to_user(buff, buf, len))
-=======
 	if ((count < sizeof(buf)) || copy_to_user(buff, buf, len)) {
 		mutex_unlock(&mdss_debug_lock);
->>>>>>> LA.BF64.1.2.3-02210-8x94.0
 		return -EFAULT;
 	}
 

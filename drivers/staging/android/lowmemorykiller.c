@@ -415,15 +415,8 @@ static int lowmem_shrink(struct shrinker *s, struct shrink_control *sc)
 			break;
 		}
 	}
-<<<<<<< HEAD
-
-	ret = adjust_minadj(&min_score_adj);
-
-	if (nr_to_scan > 0)
-=======
 	if (nr_to_scan > 0) {
 		ret = adjust_minadj(&min_score_adj);
->>>>>>> LA.BF64.1.2.3-02210-8x94.0
 		lowmem_print(3, "lowmem_shrink %lu, %x, ofree %d %d, ma %hd\n",
 				nr_to_scan, sc->gfp_mask, other_free,
 				other_file, min_score_adj);
